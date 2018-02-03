@@ -5,6 +5,7 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var compression = require("compression");
+var cors = require("cors");
 var zlib = require("zlib");
 var RoutesConfig = /** @class */ (function () {
     function RoutesConfig() {
@@ -23,6 +24,7 @@ var RoutesConfig = /** @class */ (function () {
         application.use(express.static(_root + _clientFiles));
         application.use(bodyParser.json());
         application.use(morgan("dev"));
+        application.use(cors());
         application.use(helmet());
     };
     return RoutesConfig;

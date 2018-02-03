@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import * as Promise from "bluebird";
 import * as _ from "lodash";
+import * as bcrypt   from 'bcrypt';
 import todoSchema from "../model/todo-model";
 
 todoSchema.static("getAll", ():Promise<any> => {

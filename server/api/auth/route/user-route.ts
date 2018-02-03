@@ -11,6 +11,6 @@ export class UserRoutes {
 
     router
       .route("/api/v1/auth/reg")
-      .post(userController.createNew);
+      .post(userController.createUser);
   }
 }

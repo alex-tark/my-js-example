@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var Promise = require("bluebird");
-var dbConst = require("../constants/db.json");
+var dbConst = require("@server/constants/db.json");
 var DBConfig = /** @class */ (function () {
     function DBConfig() {
     }

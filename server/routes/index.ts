@@ -1,8 +1,8 @@
 import * as express from "express";
-import {TodoRoutes} from "@server/api/todo/route/todo-route";
-import {UserRoutes} from "@server/api/auth/route/user-route";
+import {TodoRoutes} from "../api/todo/route/todo-route";
+import {UserRoutes} from "../api/auth/route/user-route";
 
-import {StaticDispatcher} from "@server/commons/static/index";
+import {StaticDispatcher} from "../commons/static/index";
 
 
 export class Routes {

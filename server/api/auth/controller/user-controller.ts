@@ -1,18 +1,18 @@
 "use strict";
 
 import * as express from "express";
-import * as userDAO from "../dao/user-dao";
 import * as jwt     from "jsonwebtoken";
+import userDAO from "../dao/user-dao";
 
 const serverConst = require("@server/constants/server.json");
 
 export class userController {
 
-  static createNew(req:express.Request, res:express.Response) {
+  static createUser(req:express.Request, res:express.Response) {
     let _user = req.body;
 
     userDAO
-      ["createNew"](_user)
+      ["createUser"](_user)
       .then(user => res.status(201).json(user))
       .catch(error => res.status(400).json(error));
   }
