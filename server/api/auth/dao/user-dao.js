@@ -26,7 +26,7 @@ user_model_1.default.pre("save", function (next) {
         return next();
     }
 });
-user_model_1.default.static("comparePassword", function (password, callback) {
+user_model_1.default.method("comparePassword", function (password, callback) {
     bcrypt.compare(password, _this.password, function (error, matches) {
         if (error) {
             return callback(error);
@@ -34,14 +34,13 @@ user_model_1.default.static("comparePassword", function (password, callback) {
         callback(null, matches);
     });
 });
-user_model_1.default.static("getByUsername", function (_username) {
+user_model_1.default.static("findByUsername", function (_username) {
     return new Promise(function (resolve, reject) {
         if (!_username) {
             return reject(new TypeError("Username is not valid object"));
         }
         var query = { username: _username };
-        User.findOne(query)
-            .exec(function (error, user) {
+        User.findOne(query, function (error, user) {
             error
                 ? reject(error)
                 : resolve(user);

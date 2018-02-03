@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
-import * as Promise from "bluebird";
-import * as _ from "lodash";
+import * as Promise  from "bluebird";
+import * as _        from "lodash";
 import * as bcrypt   from 'bcrypt';
-import userSchema from "../model/user-model";
+import userSchema    from "../model/user-model";
 
 userSchema.pre("save", function(next) {
   let user = this;
@@ -20,20 +20,19 @@ userSchema.pre("save", function(next) {
   } else { return next(); }
 });
 
-userSchema.static("comparePassword", (password, callback) => {
+userSchema.method("comparePassword", (password, callback) => {
   bcrypt.compare(password, this.password, (error, matches) => {
     if (error) { return callback(error); }
     callback(null, matches);
   });
 });
 
-userSchema.static("getByUsername", (_username: string): Promise<any> => {
+userSchema.static("findByUsername", (_username: string): Promise<any> => {
   return new Promise((resolve: Function, reject: Function) => {
     if (!_username) { return reject(new TypeError("Username is not valid object")); }
 
     let query = { username: _username };
-    User.findOne(query)
-      .exec((error, user) => {
+    User.findOne(query, (error, user) => {
         error
           ? reject(error)
           : resolve(user);
