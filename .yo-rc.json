@@ -1,0 +1,18 @@
+{
+  "generator-ng-fullstack": {
+    "appName": "template",
+    "username": "alex-tark",
+    "userEmail": "zinin.alexander21@gmail.com",
+    "stack": "fullstack",
+    "repoHostUrl": "github.com",
+    "userNameSpace": "alex-tark",
+    "client": "vue2",
+    "stylePreprocessor": "sass",
+    "server": "node",
+    "nodeWebFrameworkServer": "express",
+    "transpilerServer": "typescript",
+    "secure": false,
+    "testsSeparated": true,
+    "differentStaticServer": false
+  }
+}
