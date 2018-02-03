@@ -4,29 +4,6 @@ import * as _        from "lodash";
 import * as bcrypt   from 'bcrypt';
 import userSchema    from "../model/user-model";
 
-userSchema.pre("save", function(next) {
-  let user = this;
-  if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, (error, salt) => {
-      if (error) { return next(error); }
-
-      bcrypt.hash(user.password, salt, (error, hash) => {
-        if (error) { return next(error); }
-
-        user.password = hash;
-        next();
-      });
-    });
-  } else { return next(); }
-});
-
-userSchema.method("comparePassword", (password, callback) => {
-  bcrypt.compare(password, this.password, (error, matches) => {
-    if (error) { return callback(error); }
-    callback(null, matches);
-  });
-});
-
 userSchema.static("findByUsername", (_username: string): Promise<any> => {
   return new Promise((resolve: Function, reject: Function) => {
     if (!_username) { return reject(new TypeError("Username is not valid object")); }
@@ -50,6 +27,13 @@ userSchema.static("createUser", (user: Object): Promise<any> => {
           ? reject(error)
           : resolve(user);
       });
+  });
+});
+
+userSchema.method("comparePassword", function(password, callback) {
+  bcrypt.compare(password, this.password, (error, matches) => {
+    if (error) { return callback(error, false); }
+    callback(null, matches);
   });
 });
 
