@@ -7,14 +7,18 @@ import {StaticDispatcher} from "../commons/static/index";
 
 export class Routes {
    static init(app: express.Application, router: express.Router) {
+
      TodoRoutes.init(router);
      UserRoutes.init(router);
 
-     router
-       .route("*")
+     app
+       .route("/")
        .get(StaticDispatcher.sendIndex);
 
+     app
+       .route("/api")
+       .get(StaticDispatcher.sendDocumentation);
 
-     app.use("/", router);
+     app.use("/api/v1", router);
    }
 }

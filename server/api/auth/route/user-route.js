@@ -6,11 +6,14 @@ var UserRoutes = /** @class */ (function () {
     }
     UserRoutes.init = function (router) {
         router
-            .route("/api/v1/auth")
+            .route("/auth")
             .post(user_controller_1.userController.authentificate);
         router
-            .route("/api/v1/auth/reg")
+            .route("/auth/reg")
             .post(user_controller_1.userController.createUser);
+        router
+            .route("/user")
+            .get(user_controller_1.userController.getUser);
     };
     return UserRoutes;
 }());

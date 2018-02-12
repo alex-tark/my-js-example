@@ -6,11 +6,15 @@ import {userController} from "../controller/user-controller";
 export class UserRoutes {
   static init(router:express.Router) {
     router
-      .route("/api/v1/auth")
+      .route("/auth")
       .post(userController.authentificate);
 
     router
-      .route("/api/v1/auth/reg")
+      .route("/auth/reg")
       .post(userController.createUser);
+
+    router
+      .route("/user")
+      .get(userController.getUser);
   }
 }

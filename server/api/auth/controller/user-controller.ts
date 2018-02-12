@@ -9,6 +9,22 @@ const serverConst = require("@server/constants/server.json");
 
 export class userController {
 
+  /**
+   * @api{POST} /auth/reg Registration
+   * @apiVersion 0.0.1
+   * @apiName  Register
+   * @apiGroup OAuth
+   *
+   * @apiParam {String} username Unique user login name
+   * @apiParam {String} password Custom user password
+   *
+   * @apiSuccess{User} user User data
+   * @apiSuccessExample Success registration response example:
+   * {
+   *    username: "Vitalya332",
+   *    password: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+   * }
+   */
   static createUser(req:express.Request, res:express.Response) {
     let _user = req.body;
 
@@ -44,5 +60,9 @@ export class userController {
       if (split.length === 2) { return split[1]; }
       else { return null; }
     } else { return null; }
+  }
+
+  static getUser(req: express.Request, res: express.Response) {
+    res.status(200).json({});
   }
 }
