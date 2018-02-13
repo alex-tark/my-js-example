@@ -62,7 +62,7 @@ var userController = /** @class */ (function () {
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
                     var token = jwt.sign({ user: user }, serverConst.secret);
-                    res.send(201).json({ success: true, message: 'Token granted', access_token: token });
+                    res.status(201).json({ success: true, message: 'Token granted', access_token: token });
                 }
                 else {
                     res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
