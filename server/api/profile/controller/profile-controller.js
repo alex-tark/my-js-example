@@ -29,9 +29,9 @@ var ProfileController = /** @class */ (function () {
      *    }
      * }
      */
-    ProfileController.getProfileByBattletag = function (req, res) {
-        var _battle_tag = req.body.battle_tag;
-        profile_dao_1.default["findByBattleTag"](_battle_tag)
+    ProfileController.getProfileByUsername = function (req, res) {
+        var _user = req.user;
+        profile_dao_1.default["findByUsername"](_user.username)
             .then(function (profile) { return res.status(201).json({ success: true, message: profile.username + " profile", profile: profile }); })
             .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };

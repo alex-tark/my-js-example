@@ -2,6 +2,8 @@
 
 import * as express from "express";
 import ProfileDAO   from "../dao/profile-dao";
+import {token} from "morgan";
+import passport = require("passport");
 
 export class ProfileController {
   /**
@@ -29,11 +31,11 @@ export class ProfileController {
    *    }
    * }
    */
-  static getProfileByBattletag(req: express.Request, res: express.Response) {
-    let _battle_tag = req.body.battle_tag;
+  static getProfileByUsername(req: express.Request, res: express.Response) {
+    let _user = req.user;
 
     ProfileDAO
-      ["findByBattleTag"](_battle_tag)
+      ["findByUsername"](_user.username)
       .then(profile => res.status(201).json({ success: true, message: `${ profile.username } profile`, profile }))
       .catch(error  => res.status(400).json({ success: false, message: error.message }))
   }

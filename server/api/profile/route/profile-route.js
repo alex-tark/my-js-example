@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var profile_controller_1 = require("../controller/profile-controller");
+var utils_1 = require("../../../auth/local/utils");
 var ProfileRoutes = /** @class */ (function () {
     function ProfileRoutes() {
     }
     ProfileRoutes.init = function (router) {
         router
             .route("/profile")
-            .post(profile_controller_1.ProfileController.getProfileByBattletag);
+            .post(utils_1.LocalUtils.middleware, profile_controller_1.ProfileController.getProfileByUsername);
     };
     return ProfileRoutes;
 }());
