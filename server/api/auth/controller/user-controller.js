@@ -61,7 +61,7 @@ var UserController = /** @class */ (function () {
             }
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
-                    var token = jwt.sign({ user: user }, serverConst.secret);
+                    var token = jwt.sign({ username: user.username, expires_in: Date.now() + 2592000000 }, serverConst.secret);
                     res.status(201).json({ success: true, message: 'Token granted', access_token: token });
                 }
                 else {

@@ -68,7 +68,7 @@ export class UserController {
 
         user.comparePassword(req.body.password, (error, matches) => {
           if (matches && !error) {
-            const token = jwt.sign({ user }, serverConst.secret);
+            const token = jwt.sign({ username: user.username, expires_in: Date.now() + 2592000000 }, serverConst.secret);
             res.status(201).json({ success: true, message: 'Token granted', access_token: token });
           } else {
             res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
