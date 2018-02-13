@@ -16,6 +16,7 @@ var userController = /** @class */ (function () {
      * @apiParam {String} password Custom user password
      *
      * @apiSuccess{User} user User data
+     *
      * @apiSuccessExample Success registration response example:
      * {
      *    username: "Vitalya332",
@@ -28,6 +29,26 @@ var userController = /** @class */ (function () {
             .then(function (user) { return res.status(201).json(user); })
             .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };
+    /**
+     * @api{POST} /auth Authentication
+     * @apiVersion 0.0.1
+     * @apiName  Authentificate
+     * @apiGroup OAuth
+     *
+     * @apiParam {String} username Unique user login name
+     * @apiParam {String} password Custom user password
+     *
+     * @apiSuccess{Boolean} success       Final request flag
+     * @apiSuccess{String}  message       Server request message
+     * @apiSuccess{String}   access_token  OAuth grand access token
+     *
+     * @apiSuccessExample Success authentication response example:
+     * {
+     *    success: true,
+     *    message: "Token granted",
+     *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+     * }
+     */
     userController.authentificate = function (req, res) {
         var _user = req.body;
         user_dao_1.default["findByUsername"](_user.username)
@@ -38,7 +59,7 @@ var userController = /** @class */ (function () {
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
                     var token = jwt.sign({ user: user }, serverConst.secret);
-                    res.json({ success: true, message: 'Token granted', token: token });
+                    res.json({ success: true, message: 'Token granted', access_token: token });
                 }
                 else {
                     res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });

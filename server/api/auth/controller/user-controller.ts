@@ -19,6 +19,7 @@ export class userController {
    * @apiParam {String} password Custom user password
    *
    * @apiSuccess{User} user User data
+   *
    * @apiSuccessExample Success registration response example:
    * {
    *    username: "Vitalya332",
@@ -34,6 +35,26 @@ export class userController {
       .catch(error => res.status(400).json({ success: false, message: error.message }));
   }
 
+  /**
+   * @api{POST} /auth Authentication
+   * @apiVersion 0.0.1
+   * @apiName  Authentificate
+   * @apiGroup OAuth
+   *
+   * @apiParam {String} username Unique user login name
+   * @apiParam {String} password Custom user password
+   *
+   * @apiSuccess{Boolean} success       Final request flag
+   * @apiSuccess{String}  message       Server request message
+   * @apiSuccess{String}   access_token  OAuth grand access token
+   *
+   * @apiSuccessExample Success authentication response example:
+   * {
+   *    success: true,
+   *    message: "Token granted",
+   *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+   * }
+   */
   static authentificate(req:express.Request, res:express.Response) {
     let _user = req.body;
 
@@ -45,7 +66,7 @@ export class userController {
         user.comparePassword(req.body.password, (error, matches) => {
           if (matches && !error) {
             const token = jwt.sign({ user }, serverConst.secret);
-            res.json({ success: true, message: 'Token granted', token });
+            res.json({ success: true, message: 'Token granted', access_token: token });
           } else {
             res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });
           }
