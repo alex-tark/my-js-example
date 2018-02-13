@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var user_controller_1 = require("../controller/user-controller");
-var UserRoutes = /** @class */ (function () {
-    function UserRoutes() {
+var auth_controller_1 = require("../controller/auth-controller");
+var AuthRoutes = /** @class */ (function () {
+    function AuthRoutes() {
     }
-    UserRoutes.init = function (router) {
+    AuthRoutes.init = function (router) {
         router
             .route("/auth")
-            .post(user_controller_1.UserController.authentificate);
+            .post(auth_controller_1.AuthController.authenticate);
         router
             .route("/auth/reg")
-            .post(user_controller_1.UserController.createUser);
+            .post(auth_controller_1.AuthController.register);
         router
-            .route("/user")
-            .get(user_controller_1.UserController.getUser);
+            .route("/auth/token")
+            .post(auth_controller_1.AuthController.tokenStatus);
     };
-    return UserRoutes;
+    return AuthRoutes;
 }());
-exports.UserRoutes = UserRoutes;
+exports.AuthRoutes = AuthRoutes;
 //# sourceMappingURL=user-route.js.map
