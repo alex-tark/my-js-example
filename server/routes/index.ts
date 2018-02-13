@@ -2,7 +2,6 @@ import * as express from "express";
 import {TodoRoutes} from "../api/todo/route/todo-route";
 import {AuthRoutes} from "../api/auth/route/user-route";
 import {ProfileRoutes} from "../api/profile/route/profile-route";
-
 import {StaticDispatcher} from "../commons/static/index";
 
 

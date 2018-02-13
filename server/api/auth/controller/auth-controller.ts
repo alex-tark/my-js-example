@@ -1,7 +1,6 @@
 "use strict";
 
 import * as express from "express";
-import * as jwt     from "jsonwebtoken";
 import UserDAO      from "../dao/user-dao";
 import TokenDAO     from "../dao/token-dao";
 
@@ -61,13 +60,13 @@ export class AuthController {
 
     UserDAO
       ["findByUsername"](_user.username)
-      .then((user) => {
+      .then(user => {
         if (!user) { return res.status(401).json({}) }
 
         user.comparePassword(req.body.password, (error, matches) => {
           if (matches && !error) {
             TokenDAO
-              ["createToken"]
+              ["createToken"](_user.username)
               .then(token => res.status(201).json({ success: true, message: 'Token granted', access_token: token }))
               .catch(error => res.status(401).json({ success: false, message: error.message }));
           } else {
@@ -75,7 +74,7 @@ export class AuthController {
           }
         });
       })
-      .catch((error) => res.status(400).json({ success: false, message: error.message }));
+      .catch(error => res.status(400).json({ success: false, message: error.message }));
   }
 
   /**
