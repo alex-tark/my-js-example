@@ -5,7 +5,7 @@ let schema = new mongoose.Schema({
     email:      {type: String, unique: true, required: true},
     battle_tag: {type: String, unique: true, required: true},
     user_id:    {type: String, unique: true, required: true},
-    last_visit: {type: Date, unique: false, required: true, default: Date.now()}
+    last_visit: {type: Date, unique: false, default: Date.now()}
 });
 
 export default schema;

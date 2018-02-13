@@ -4,13 +4,13 @@ var mongoose = require("mongoose");
 var Promise = require("bluebird");
 var jwt = require("jsonwebtoken");
 var token_model_1 = require("../model/token-model");
-var serverConst = require("@server/constants/server.json");
+var ServerConst = require("@server/constants/server.json");
 token_model_1.default.static("checkRelevance", function (_access_token) {
     return new Promise(function (resolve, reject) {
         if (!_access_token) {
             return reject(new TypeError("Access token is not valid object"));
         }
-        jwt.verify(_access_token, serverConst.serverSecret, function (error, decodedToken) {
+        jwt.verify(_access_token, ServerConst.secret, function (error, decodedToken) {
             if (error) {
                 return reject(error);
             }
@@ -36,7 +36,7 @@ token_model_1.default.static("createToken", function (_username) {
         }
         var _access_token = jwt.sign({
             data: _username
-        }, serverConst.serverSecret, { expiresIn: 2592000000 }); //30d
+        }, ServerConst.secret, { expiresIn: 2592000000 }); //30d
         var _token = new Token({ access_token: _access_token, username: _username });
         _token.save(function (error, token) {
             error

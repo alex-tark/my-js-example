@@ -60,7 +60,7 @@ var AuthController = /** @class */ (function () {
             }
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
-                    token_dao_1.default["createToken"]
+                    token_dao_1.default["createToken"](_user.username)
                         .then(function (token) { return res.status(201).json({ success: true, message: 'Token granted', access_token: token }); })
                         .catch(function (error) { return res.status(401).json({ success: false, message: error.message }); });
                 }
