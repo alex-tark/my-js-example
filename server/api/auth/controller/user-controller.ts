@@ -75,7 +75,7 @@ export class userController {
           }
         });
       })
-      .catch((error) => res.status(400).json(error));
+      .catch((error) => res.status(400).json({ success: false, message: error.message }));
   }
 
   static verify(headers) {

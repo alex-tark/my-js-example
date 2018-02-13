@@ -69,7 +69,7 @@ var userController = /** @class */ (function () {
                 }
             });
         })
-            .catch(function (error) { return res.status(400).json(error); });
+            .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };
     userController.verify = function (headers) {
         if (headers && headers.authorization) {
