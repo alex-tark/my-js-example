@@ -8,7 +8,10 @@ var ProfileRoutes = /** @class */ (function () {
     ProfileRoutes.init = function (router) {
         router
             .route("/profile")
-            .post(utils_1.LocalUtils.middleware, profile_controller_1.ProfileController.getProfileByUsername);
+            .get(utils_1.LocalUtils.middleware, profile_controller_1.ProfileController.getProfileByUsername);
+        router
+            .route("/profile")
+            .post(utils_1.LocalUtils.middleware, profile_controller_1.ProfileController.createProfile);
     };
     return ProfileRoutes;
 }());

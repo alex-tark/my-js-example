@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import * as Promise  from "bluebird";
+import * as _        from "lodash";
 import ProfileSchema from "../model/profile-model";
 
 ProfileSchema.static("findByUsername", (_username: string): Promise<any> => {
@@ -13,6 +14,19 @@ ProfileSchema.static("findByUsername", (_username: string): Promise<any> => {
                 : resolve(profile)
         });
     });
+});
+
+ProfileSchema.static("createProfile", (_profile: Object): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        if (!_.isObject(_profile)) { return reject(new TypeError('Profile is not valid object')); }
+
+        let profile = new Profile(_profile);
+        profile.save((error, profileSaved) => {
+            error
+                ? reject(error)
+                : resolve(profileSaved);
+        });
+    })
 });
 
 let Profile = mongoose.model("Profile", ProfileSchema);

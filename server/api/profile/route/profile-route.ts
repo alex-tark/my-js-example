@@ -8,7 +8,10 @@ export class ProfileRoutes {
   static init(router:express.Router) {
     router
       .route("/profile")
-      .post(LocalUtils.middleware, ProfileController.getProfileByUsername);
+      .get(LocalUtils.middleware, ProfileController.getProfileByUsername);
 
+    router
+      .route("/profile")
+      .post(LocalUtils.middleware, ProfileController.createProfile);
   }
 }
