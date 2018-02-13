@@ -7,7 +7,7 @@ import {error} from "protractor/built/logger";
 
 const serverConst = require("@server/constants/server.json");
 
-export class userController {
+export class UserController {
 
   /**
    * @api{POST} /auth/reg Registration

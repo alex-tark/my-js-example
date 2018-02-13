@@ -7,13 +7,13 @@ var UserRoutes = /** @class */ (function () {
     UserRoutes.init = function (router) {
         router
             .route("/auth")
-            .post(user_controller_1.userController.authentificate);
+            .post(user_controller_1.UserController.authentificate);
         router
             .route("/auth/reg")
-            .post(user_controller_1.userController.createUser);
+            .post(user_controller_1.UserController.createUser);
         router
             .route("/user")
-            .get(user_controller_1.userController.getUser);
+            .get(user_controller_1.UserController.getUser);
     };
     return UserRoutes;
 }());

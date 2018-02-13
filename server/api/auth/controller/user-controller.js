@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var jwt = require("jsonwebtoken");
 var user_dao_1 = require("../dao/user-dao");
 var serverConst = require("@server/constants/server.json");
-var userController = /** @class */ (function () {
-    function userController() {
+var UserController = /** @class */ (function () {
+    function UserController() {
     }
     /**
      * @api{POST} /auth/reg Registration
@@ -26,7 +26,7 @@ var userController = /** @class */ (function () {
      *    username: "Vitalya332"
      * }
      */
-    userController.createUser = function (req, res) {
+    UserController.createUser = function (req, res) {
         var _user = req.body;
         user_dao_1.default["createUser"](_user)
             .then(function (user) { return res.status(201).json({ success: true, messge: "User " + user.username + " created", username: user.username }); })
@@ -52,7 +52,7 @@ var userController = /** @class */ (function () {
      *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
      * }
      */
-    userController.authentificate = function (req, res) {
+    UserController.authentificate = function (req, res) {
         var _user = req.body;
         user_dao_1.default["findByUsername"](_user.username)
             .then(function (user) {
@@ -71,7 +71,7 @@ var userController = /** @class */ (function () {
         })
             .catch(function (error) { return res.status(400).json(error); });
     };
-    userController.verify = function (headers) {
+    UserController.verify = function (headers) {
         if (headers && headers.authorization) {
             var split = headers.authorization.split(' ');
             if (split.length === 2) {
@@ -85,10 +85,10 @@ var userController = /** @class */ (function () {
             return null;
         }
     };
-    userController.getUser = function (req, res) {
+    UserController.getUser = function (req, res) {
         res.status(200).json({});
     };
-    return userController;
+    return UserController;
 }());
-exports.userController = userController;
+exports.UserController = UserController;
 //# sourceMappingURL=user-controller.js.map

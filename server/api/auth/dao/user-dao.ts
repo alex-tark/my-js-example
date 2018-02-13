@@ -2,9 +2,9 @@ import * as mongoose from "mongoose";
 import * as Promise  from "bluebird";
 import * as _        from "lodash";
 import * as bcrypt   from 'bcrypt';
-import userSchema    from "../model/user-model";
+import UserSchema    from "../model/user-model";
 
-userSchema.static("findByUsername", (_username: string): Promise<any> => {
+UserSchema.static("findByUsername", (_username: string): Promise<any> => {
   return new Promise((resolve: Function, reject: Function) => {
     if (!_username) { return reject(new TypeError("Username is not valid object")); }
 
@@ -17,7 +17,7 @@ userSchema.static("findByUsername", (_username: string): Promise<any> => {
   });
 });
 
-userSchema.static("createUser", (user: Object): Promise<any> => {
+UserSchema.static("createUser", (user: Object): Promise<any> => {
   return new Promise((resolve: Function, reject: Function) => {
     if (!_.isObject(user)) { return reject(new TypeError("User is not valid object")); }
 
@@ -30,13 +30,13 @@ userSchema.static("createUser", (user: Object): Promise<any> => {
   });
 });
 
-userSchema.method("comparePassword", function(password, callback) {
+UserSchema.method("comparePassword", function(password, callback) {
   bcrypt.compare(password, this.password, (error, matches) => {
     if (error) { return callback(error, false); }
     callback(null, matches);
   });
 });
 
-let User = mongoose.model("User", userSchema);
+let User = mongoose.model("User", UserSchema);
 
 export default User;

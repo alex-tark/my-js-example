@@ -2,8 +2,8 @@ import * as mongoose from 'mongoose';
 import * as bcrypt   from 'bcrypt';
 
 let schema = new mongoose.Schema({
-    username: {type: String, unique: true, required: true},
-    password: {type: String, required: true}
+  username: {type: String, unique: true, required: true},
+  password: {type: String, required: true}
 });
 
 schema.pre("save", function(next) {
