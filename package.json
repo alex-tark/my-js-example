@@ -106,7 +106,7 @@
   },
   "apidoc": {
     "title": "HOTSBuff documentation",
-    "url": "http://localhost:3333/api/v1"
+    "url": "http://localhost:3333/api"
   },
   "engines": {
     "node": "stable"
