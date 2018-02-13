@@ -12,6 +12,11 @@ var StaticDispatcher = /** @class */ (function () {
         res.type(".html");
         fs.createReadStream(path.join(_root + "/client/" + _folder + "/index.html")).pipe(res);
     };
+    StaticDispatcher.sendDocumentation = function (req, res) {
+        var _root = process.cwd();
+        res.type('.html');
+        fs.createReadStream(path.join(_root + "/documentation/index.html")).pipe(res);
+    };
     return StaticDispatcher;
 }());
 exports.StaticDispatcher = StaticDispatcher;

@@ -6,6 +6,22 @@ var serverConst = require("@server/constants/server.json");
 var userController = /** @class */ (function () {
     function userController() {
     }
+    /**
+     * @api{POST} /auth/reg Registration
+     * @apiVersion 0.0.1
+     * @apiName  Register
+     * @apiGroup OAuth
+     *
+     * @apiParam {String} username Unique user login name
+     * @apiParam {String} password Custom user password
+     *
+     * @apiSuccess{User} user User data
+     * @apiSuccessExample Success registration response example:
+     * {
+     *    username: "Vitalya332",
+     *    password: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+     * }
+     */
     userController.createUser = function (req, res) {
         var _user = req.body;
         user_dao_1.default["createUser"](_user)
@@ -44,6 +60,9 @@ var userController = /** @class */ (function () {
         else {
             return null;
         }
+    };
+    userController.getUser = function (req, res) {
+        res.status(200).json({});
     };
     return userController;
 }());

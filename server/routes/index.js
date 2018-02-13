@@ -9,10 +9,13 @@ var Routes = /** @class */ (function () {
     Routes.init = function (app, router) {
         todo_route_1.TodoRoutes.init(router);
         user_route_1.UserRoutes.init(router);
-        router
-            .route("*")
+        app
+            .route("/")
             .get(index_1.StaticDispatcher.sendIndex);
-        app.use("/", router);
+        app
+            .route("/api")
+            .get(index_1.StaticDispatcher.sendDocumentation);
+        app.use("/api/v1", router);
     };
     return Routes;
 }());
