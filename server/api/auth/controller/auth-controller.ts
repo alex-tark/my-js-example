@@ -78,6 +78,25 @@ export class AuthController {
       .catch((error) => res.status(400).json(error));
   }
 
+  /**
+   * @api{POST} /auth/token Access_token
+   * @apiVersion 0.0.1
+   * @apiName  Token
+   * @apiGroup OAuth
+   *
+   * @apiParam {String} access_token User unique access token
+   *
+   * @apiSuccess{Boolean} success       Final request flag
+   * @apiSuccess{String}  message       Server request message
+   * @apiSuccess{String}  access_token  OAuth grand access token
+   *
+   * @apiSuccessExample Success example:
+   * {
+   *    success: true,
+   *    message: "Token is available",
+   *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+   * }
+   */
   static tokenStatus(req:express.Request, res:express.Response) {
     let _token = req.body.access_token;
 
