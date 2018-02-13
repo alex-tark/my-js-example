@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var jwt = require("jsonwebtoken");
 var user_dao_1 = require("../dao/user-dao");
-var serverConst = require("@server/constants/server.json");
-var userController = /** @class */ (function () {
-    function userController() {
+var token_dao_1 = require("../dao/token-dao");
+var AuthController = /** @class */ (function () {
+    function AuthController() {
     }
     /**
      * @api{POST} /auth/reg Registration
@@ -26,7 +25,7 @@ var userController = /** @class */ (function () {
      *    username: "Vitalya332"
      * }
      */
-    userController.createUser = function (req, res) {
+    AuthController.register = function (req, res) {
         var _user = req.body;
         user_dao_1.default["createUser"](_user)
             .then(function (user) { return res.status(201).json({ success: true, messge: "User " + user.username + " created", username: user.username }); })
@@ -35,7 +34,7 @@ var userController = /** @class */ (function () {
     /**
      * @api{POST} /auth Authentication
      * @apiVersion 0.0.2
-     * @apiName  Authentificate
+     * @apiName  Authentication
      * @apiGroup OAuth
      *
      * @apiParam {String} username Unique user login name
@@ -52,7 +51,7 @@ var userController = /** @class */ (function () {
      *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
      * }
      */
-    userController.authentificate = function (req, res) {
+    AuthController.authenticate = function (req, res) {
         var _user = req.body;
         user_dao_1.default["findByUsername"](_user.username)
             .then(function (user) {
@@ -61,34 +60,43 @@ var userController = /** @class */ (function () {
             }
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
-                    var token = jwt.sign({ user: user }, serverConst.secret);
-                    res.status(201).json({ success: true, message: 'Token granted', access_token: token });
+                    token_dao_1.default["createToken"]
+                        .then(function (token) { return res.status(201).json({ success: true, message: 'Token granted', access_token: token }); })
+                        .catch(function (error) { return res.status(401).json({ success: false, message: error.message }); });
                 }
                 else {
                     res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
                 }
             });
         })
-            .catch(function (error) { return res.status(400).json(error); });
+            .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };
-    userController.verify = function (headers) {
-        if (headers && headers.authorization) {
-            var split = headers.authorization.split(' ');
-            if (split.length === 2) {
-                return split[1];
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return null;
-        }
+    /**
+     * @api{POST} /auth/token Access_token
+     * @apiVersion 0.0.1
+     * @apiName  Token
+     * @apiGroup OAuth
+     *
+     * @apiParam {String} access_token User unique access token
+     *
+     * @apiSuccess{Boolean} success       Final request flag
+     * @apiSuccess{String}  message       Server request message
+     * @apiSuccess{String}  access_token  OAuth grand access token
+     *
+     * @apiSuccessExample Success example:
+     * {
+     *    success: true,
+     *    message: "Token is available",
+     *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+     * }
+     */
+    AuthController.tokenStatus = function (req, res) {
+        var _token = req.body.access_token;
+        token_dao_1.default["checkRelevance"](_token)
+            .then(function (token) { return res.status(200).json({ success: true, message: 'Token is available', access_token: token.access_token }); })
+            .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };
-    userController.getUser = function (req, res) {
-        res.status(200).json({});
-    };
-    return userController;
+    return AuthController;
 }());
-exports.userController = userController;
-//# sourceMappingURL=user-controller.js.map
+exports.AuthController = AuthController;
+//# sourceMappingURL=auth-controller.js.map
