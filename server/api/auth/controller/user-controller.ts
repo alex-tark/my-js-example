@@ -11,19 +11,22 @@ export class userController {
 
   /**
    * @api{POST} /auth/reg Registration
-   * @apiVersion 0.0.1
+   * @apiVersion 0.0.2
    * @apiName  Register
    * @apiGroup OAuth
    *
-   * @apiParam {String} username Unique user login name
-   * @apiParam {String} password Custom user password
+   * @apiParam{String}    username Unique user login name
+   * @apiParam{String}    password Custom user password
    *
-   * @apiSuccess{User} user User data
+   * @apiSuccess{Boolean}  success  Final request flag
+   * @apiSuccess{String}   message  Server request message
+   * @apiSuccess{username} username Unique user login
    *
    * @apiSuccessExample Success registration response example:
    * {
-   *    username: "Vitalya332",
-   *    password: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+   *    success: true,
+   *    message: "User Vitalya332 created",
+   *    username: "Vitalya332"
    * }
    */
   static createUser(req:express.Request, res:express.Response) {
@@ -31,13 +34,13 @@ export class userController {
 
     userDAO
       ["createUser"](_user)
-      .then(user => res.status(201).json(user))
+      .then(user => res.status(201).json({ success: true, messge: `User ${ user.username } created`, username: user.username }))
       .catch(error => res.status(400).json({ success: false, message: error.message }));
   }
 
   /**
    * @api{POST} /auth Authentication
-   * @apiVersion 0.0.1
+   * @apiVersion 0.0.2
    * @apiName  Authentificate
    * @apiGroup OAuth
    *
@@ -46,7 +49,7 @@ export class userController {
    *
    * @apiSuccess{Boolean} success       Final request flag
    * @apiSuccess{String}  message       Server request message
-   * @apiSuccess{String}   access_token  OAuth grand access token
+   * @apiSuccess{String}  access_token  OAuth grand access token
    *
    * @apiSuccessExample Success authentication response example:
    * {
@@ -66,9 +69,9 @@ export class userController {
         user.comparePassword(req.body.password, (error, matches) => {
           if (matches && !error) {
             const token = jwt.sign({ user }, serverConst.secret);
-            res.json({ success: true, message: 'Token granted', access_token: token });
+            res.send(201).json({ success: true, message: 'Token granted', access_token: token });
           } else {
-            res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });
+            res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
           }
         });
       })

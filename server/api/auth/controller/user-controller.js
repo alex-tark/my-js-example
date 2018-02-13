@@ -8,30 +8,33 @@ var userController = /** @class */ (function () {
     }
     /**
      * @api{POST} /auth/reg Registration
-     * @apiVersion 0.0.1
+     * @apiVersion 0.0.2
      * @apiName  Register
      * @apiGroup OAuth
      *
-     * @apiParam {String} username Unique user login name
-     * @apiParam {String} password Custom user password
+     * @apiParam{String}    username Unique user login name
+     * @apiParam{String}    password Custom user password
      *
-     * @apiSuccess{User} user User data
+     * @apiSuccess{Boolean}  success  Final request flag
+     * @apiSuccess{String}   message  Server request message
+     * @apiSuccess{username} username Unique user login
      *
      * @apiSuccessExample Success registration response example:
      * {
-     *    username: "Vitalya332",
-     *    password: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+     *    success: true,
+     *    message: "User Vitalya332 created",
+     *    username: "Vitalya332"
      * }
      */
     userController.createUser = function (req, res) {
         var _user = req.body;
         user_dao_1.default["createUser"](_user)
-            .then(function (user) { return res.status(201).json(user); })
+            .then(function (user) { return res.status(201).json({ success: true, messge: "User " + user.username + " created", username: user.username }); })
             .catch(function (error) { return res.status(400).json({ success: false, message: error.message }); });
     };
     /**
      * @api{POST} /auth Authentication
-     * @apiVersion 0.0.1
+     * @apiVersion 0.0.2
      * @apiName  Authentificate
      * @apiGroup OAuth
      *
@@ -40,7 +43,7 @@ var userController = /** @class */ (function () {
      *
      * @apiSuccess{Boolean} success       Final request flag
      * @apiSuccess{String}  message       Server request message
-     * @apiSuccess{String}   access_token  OAuth grand access token
+     * @apiSuccess{String}  access_token  OAuth grand access token
      *
      * @apiSuccessExample Success authentication response example:
      * {
@@ -59,10 +62,10 @@ var userController = /** @class */ (function () {
             user.comparePassword(req.body.password, function (error, matches) {
                 if (matches && !error) {
                     var token = jwt.sign({ user: user }, serverConst.secret);
-                    res.json({ success: true, message: 'Token granted', access_token: token });
+                    res.send(201).json({ success: true, message: 'Token granted', access_token: token });
                 }
                 else {
-                    res.status(401).send({ success: false, message: 'Authentication failed. Wrong password.' });
+                    res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
                 }
             });
         })
