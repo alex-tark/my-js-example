@@ -2,12 +2,10 @@
 
 import * as express from "express";
 import * as jwt     from "jsonwebtoken";
-import userDAO      from "../dao/user-dao";
-import {error} from "protractor/built/logger";
+import UserDAO      from "../dao/user-dao";
+import TokenDAO     from "../dao/token-dao";
 
-const serverConst = require("@server/constants/server.json");
-
-export class userController {
+export class AuthController {
 
   /**
    * @api{POST} /auth/reg Registration
@@ -29,10 +27,10 @@ export class userController {
    *    username: "Vitalya332"
    * }
    */
-  static createUser(req:express.Request, res:express.Response) {
+  static register(req:express.Request, res:express.Response) {
     let _user = req.body;
 
-    userDAO
+    UserDAO
       ["createUser"](_user)
       .then(user => res.status(201).json({ success: true, messge: `User ${ user.username } created`, username: user.username }))
       .catch(error => res.status(400).json({ success: false, message: error.message }));
@@ -41,7 +39,7 @@ export class userController {
   /**
    * @api{POST} /auth Authentication
    * @apiVersion 0.0.2
-   * @apiName  Authentificate
+   * @apiName  Authentication
    * @apiGroup OAuth
    *
    * @apiParam {String} username Unique user login name
@@ -58,18 +56,20 @@ export class userController {
    *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
    * }
    */
-  static authentificate(req:express.Request, res:express.Response) {
+  static authenticate(req:express.Request, res:express.Response) {
     let _user = req.body;
 
-    userDAO
+    UserDAO
       ["findByUsername"](_user.username)
       .then((user) => {
         if (!user) { return res.status(401).json({}) }
 
         user.comparePassword(req.body.password, (error, matches) => {
           if (matches && !error) {
-            const token = jwt.sign({ user }, serverConst.secret);
-            res.status(201).json({ success: true, message: 'Token granted', access_token: token });
+            TokenDAO
+              ["createToken"]
+              .then(token => res.status(201).json({ success: true, message: 'Token granted', access_token: token }))
+              .catch(error => res.status(401).json({ success: false, message: error.message }));
           } else {
             res.status(401).json({ success: false, message: 'Authentication failed. Wrong password.' });
           }
@@ -78,15 +78,31 @@ export class userController {
       .catch((error) => res.status(400).json({ success: false, message: error.message }));
   }
 
-  static verify(headers) {
-    if (headers && headers.authorization) {
-      let split = headers.authorization.split(' ');
-      if (split.length === 2) { return split[1]; }
-      else { return null; }
-    } else { return null; }
-  }
+  /**
+   * @api{POST} /auth/token Access_token
+   * @apiVersion 0.0.1
+   * @apiName  Token
+   * @apiGroup OAuth
+   *
+   * @apiParam {String} access_token User unique access token
+   *
+   * @apiSuccess{Boolean} success       Final request flag
+   * @apiSuccess{String}  message       Server request message
+   * @apiSuccess{String}  access_token  OAuth grand access token
+   *
+   * @apiSuccessExample Success example:
+   * {
+   *    success: true,
+   *    message: "Token is available",
+   *    access_token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+   * }
+   */
+  static tokenStatus(req:express.Request, res:express.Response) {
+    let _token = req.body.access_token;
 
-  static getUser(req: express.Request, res: express.Response) {
-    res.status(200).json({});
+    TokenDAO
+      ["checkRelevance"](_token)
+      .then(token => res.status(200).json({ success: true, message: 'Token is available', access_token: token.access_token }))
+      .catch(error => res.status(400).json({ success: false, message: error.message }));
   }
 }

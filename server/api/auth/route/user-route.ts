@@ -1,20 +1,20 @@
 "use strict";
 
 import * as express from "express";
-import {userController} from "../controller/user-controller";
+import {AuthController} from "../controller/auth-controller";
 
-export class UserRoutes {
+export class AuthRoutes {
   static init(router:express.Router) {
     router
       .route("/auth")
-      .post(userController.authentificate);
+      .post(AuthController.authenticate);
 
     router
       .route("/auth/reg")
-      .post(userController.createUser);
+      .post(AuthController.register);
 
     router
-      .route("/user")
-      .get(userController.getUser);
+      .route("/auth/token")
+      .post(AuthController.tokenStatus);
   }
 }

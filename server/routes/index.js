@@ -9,7 +9,7 @@ var Routes = /** @class */ (function () {
     }
     Routes.init = function (app, router) {
         todo_route_1.TodoRoutes.init(router);
-        user_route_1.UserRoutes.init(router);
+        user_route_1.AuthRoutes.init(router);
         profile_route_1.ProfileRoutes.init(router);
         app
             .route("/")
