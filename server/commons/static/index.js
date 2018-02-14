@@ -5,15 +5,20 @@ var path = require("path");
 var StaticDispatcher = /** @class */ (function () {
     function StaticDispatcher() {
     }
-    StaticDispatcher.sendIndex = function (req, res) {
+    StaticDispatcher.sendLanding = function (req, res) {
+        var _root = process.cwd();
+        res.type('.html');
+        fs.createReadStream(path.join(_root + "/client/public/index.html")).pipe(res);
+    };
+    StaticDispatcher.sendDashboard = function (req, res) {
         var _root = process.cwd();
         res.type(".html");
-        fs.createReadStream(path.join(_root + "/client/public/index.html")).pipe(res);
+        fs.createReadStream(path.join(_root + "/client/public/dashboard.html")).pipe(res);
     };
     StaticDispatcher.sendDocumentation = function (req, res) {
         var _root = process.cwd();
         res.type('.html');
-        fs.createReadStream(path.join(_root + "/documentation/index.html")).pipe(res);
+        fs.createReadStream(path.join(_root + "/doc/index.html")).pipe(res);
     };
     return StaticDispatcher;
 }());

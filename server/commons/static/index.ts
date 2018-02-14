@@ -5,12 +5,20 @@ import * as fs from "fs";
 import * as path from "path";
 
 export class StaticDispatcher {
-    static sendIndex(req: express.Request, res: express.Response):void {
+    static sendLanding(req: express.Request, res: express.Response):void {
+      const _root = process.cwd();
+
+      res.type('.html');
+
+      fs.createReadStream(path.join(`${_root}/client/public/index.html`)).pipe(res);
+    }
+
+    static sendDashboard(req: express.Request, res: express.Response):void {
       const _root = process.cwd();
 
       res.type(".html");
 
-      fs.createReadStream(path.join(`${_root}/client/public/index.html`)).pipe(res);
+      fs.createReadStream(path.join(`${_root}/client/public/dashboard.html`)).pipe(res);
     }
 
     static sendDocumentation(req: express.Request, res: express.Response):void {
@@ -18,6 +26,6 @@ export class StaticDispatcher {
 
       res.type('.html');
 
-      fs.createReadStream(path.join(`${_root}/documentation/index.html`)).pipe(res);
+      fs.createReadStream(path.join(`${_root}/doc/index.html`)).pipe(res);
     }
 }

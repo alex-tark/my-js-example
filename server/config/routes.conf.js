@@ -14,16 +14,16 @@ var RoutesConfig = /** @class */ (function () {
         var _root = process.cwd();
         var _nodeModules = "/node_modules/";
         var _jspmPackages = "/jspm_packages/";
-        var _clientFiles = (process.env.NODE_ENV === "production") ? "/client/dist/" : "/client/dev/";
-        var _documentation = "/documentation/";
+        var _public = "/client/public/";
+        var _doc = "/doc/";
         application.use(compression({
             level: zlib.Z_BEST_COMPRESSION,
             threshold: "1kb"
         }));
         application.use(express.static(_root + _nodeModules));
         application.use(express.static(_root + _jspmPackages));
-        application.use(express.static(_root + _clientFiles));
-        application.use(express.static(_root + _documentation));
+        application.use(express.static(_root + _public));
+        application.use(express.static(_root + _doc));
         application.use(bodyParser.json());
         application.use(morgan("dev"));
         application.use(cors());

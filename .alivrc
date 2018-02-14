@@ -2,17 +2,18 @@
     "quiet": true,
     "port": 3000,
     "http2": false,
-    "pathIndex": "client/dev",
+    "pathIndex": "client",
     "only": [
-        "client/dev/**/*"
+        "client/**/*"
     ],
     "static": [
         "node_modules",
-        "jspm_packages"
+        "jspm_packages",
+        "resource"
     ],
     "proxy": true,
     "proxyWhen": "/api/*",
-    
+
     "proxyTarget": "http://localhost:3333"
-    
+
 }

@@ -12,14 +12,19 @@ export class Routes {
      AuthRoutes.init(router);
      ProfileRoutes.init(router);
 
-     app.use("/api/v1", router);
 
      app
        .route("/dashboard")
-       .get(StaticDispatcher.sendIndex);
+       .get(StaticDispatcher.sendDashboard);
 
      app
        .route("/api")
        .get(StaticDispatcher.sendDocumentation);
+
+     app
+       .route("/*")
+       .get(StaticDispatcher.sendLanding);
+
+     app.use("/api/v1", router);
    }
 }

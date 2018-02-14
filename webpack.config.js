@@ -41,7 +41,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/templates/index.html',
-      filename: 'index.html',
+      filename: 'dashboard.html',
       chunks  : [ 'vendor', 'app' ]
     }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
