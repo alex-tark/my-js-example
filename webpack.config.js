@@ -21,7 +21,7 @@ const config = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: /(client\/services)/,
+        include: /(client\/(services|public))/,
         query: {
           presets: [
             'es2015'
