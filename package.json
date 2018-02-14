@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --progress --colors --watch",
+    "dev": " webpack-dev-server --progress --colors --hot -d --inline",
     "start": "node server/index",
     "build": "webpack",
     "watch": "nodemon -e ts --exec \"npm run compile\"",

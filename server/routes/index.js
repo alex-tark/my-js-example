@@ -11,13 +11,13 @@ var Routes = /** @class */ (function () {
         todo_route_1.TodoRoutes.init(router);
         user_route_1.AuthRoutes.init(router);
         profile_route_1.ProfileRoutes.init(router);
-        router
-            .route("/")
-            .get(index_1.StaticDispatcher.sendIndex);
-        app
-            .route("/api")
-            .get(index_1.StaticDispatcher.sendDocumentation);
         app.use("/api/v1", router);
+        app
+            .route("/api*")
+            .get(index_1.StaticDispatcher.sendDocumentation);
+        app
+            .route("/*")
+            .get(index_1.StaticDispatcher.sendIndex);
     };
     return Routes;
 }());
