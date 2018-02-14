@@ -11,7 +11,7 @@ var Routes = /** @class */ (function () {
         todo_route_1.TodoRoutes.init(router);
         user_route_1.AuthRoutes.init(router);
         profile_route_1.ProfileRoutes.init(router);
-        app
+        router
             .route("/")
             .get(index_1.StaticDispatcher.sendIndex);
         app

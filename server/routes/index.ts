@@ -12,7 +12,7 @@ export class Routes {
      AuthRoutes.init(router);
      ProfileRoutes.init(router);
 
-     app
+     router
        .route("/")
        .get(StaticDispatcher.sendIndex);
 
