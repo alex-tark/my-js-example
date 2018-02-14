@@ -15,11 +15,11 @@ export class Routes {
      app.use("/api/v1", router);
 
      app
-       .route("/api*")
-       .get(StaticDispatcher.sendDocumentation);
+       .route("/dashboard")
+       .get(StaticDispatcher.sendIndex);
 
      app
-       .route("/*")
-       .get(StaticDispatcher.sendIndex);
+       .route("/api")
+       .get(StaticDispatcher.sendDocumentation);
    }
 }

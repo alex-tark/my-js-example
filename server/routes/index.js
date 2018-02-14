@@ -13,11 +13,11 @@ var Routes = /** @class */ (function () {
         profile_route_1.ProfileRoutes.init(router);
         app.use("/api/v1", router);
         app
-            .route("/api*")
-            .get(index_1.StaticDispatcher.sendDocumentation);
-        app
-            .route("/*")
+            .route("/dashboard")
             .get(index_1.StaticDispatcher.sendIndex);
+        app
+            .route("/api")
+            .get(index_1.StaticDispatcher.sendDocumentation);
     };
     return Routes;
 }());
